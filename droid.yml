@@ -1,0 +1,37 @@
+project:
+    name: "droid/nfs-client"
+    description: "Install and configure an NFS client and mount a share"
+
+variables:
+    module_nfs_client:
+        share: ~
+            # host: nfs.example.com
+            # path: /share
+        mount: ~
+            # path: /share
+            # mode: 0777
+            # opts: rw
+
+tasks:
+    -
+      name: "Update packages"
+      command: "apt-get:update"
+    -
+      name: "Install nfs-common package"
+      command: "apt-get:install"
+      arguments:
+          package: "nfs-common"
+    -
+      name: "Make NFS share moint point"
+      command: "fs:mkdir"
+      arguments:
+          directory: "{{{ module_nfs_client.mount.path }}}"
+          mode: "{{{ module_nfs_client.mount.mode }}}"
+    -
+      name: "Mount NFS share"
+      command: "fs:mount"
+      arguments:
+          filesystem: "{{{ module_nfs_client.share.host }}}:{{{ module_nfs_client.share.path }}}"
+          mount-point: "{{{ module_nfs_client.mount.path }}}"
+          type: "nfs"
+          options: "{{{ module_nfs_client.mount.opts }}}"
