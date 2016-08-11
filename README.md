@@ -8,7 +8,8 @@ The steps involved are:-
 1. Update platform packages.
 2. Install the nfs-common package.
 3. Create a mount-point for an NFS share.
-4. Mount an NFS share.
+4. Restart the NFS Common service.
+5. Mount an NFS share.
 
 
 ## Assumptions
@@ -21,6 +22,28 @@ The steps involved are:-
 ## Limitations
 
 1. Only one NFS share may be mounted.
+2. Any host configured to statically assign a port number to the lockd daemon
+   (see Optional Information, below) will require a reboot.
+
+
+## Configuration files managed by the module
+
+Configuration files managed by the module will be overwritten each time the
+module is run.
+
+1. The following existing configuration files are overwritten:-
+
+    - /etc/hosts.allow
+    - /etc/hosts.deny
+
+2. The following configuration files are installed by their respective platform
+   packages during the execution of the module and then overwritten:-
+
+    - /etc/default/nfs-common
+
+3. The following new configuration files are written:-
+
+    - /etc/modprobe.d/lockd.conf
 
 
 ## Information required by the module
@@ -38,4 +61,40 @@ The steps involved are:-
 
 ## Optional information
 
-None.
+1. Per-host entries in hosts.allow and hosts.deny to secure access to NFS
+   related daemons by way of tcpwrappers:-
+
+        hosts:
+          nfs_client:
+            variables:
+              hosts_deny:
+                - <string> # suggest: "lockd: ALL"
+                           #          "mountd: ALL"
+                           #          "rpcbind: ALL"
+                           #          "rquotad: ALL"
+                           #          "statd: ALL"
+              hosts_allow:
+                - <string> # suggest: "lockd: 127.0.0.1"
+                           #          "mountd: 127.0.0.1"
+                           #          "rpcbind: 127.0.0.1"
+                           #          "rquotad: 127.0.0.1"
+                           #          "statd: 127.0.0.1"
+
+2. Per-host default options in /etc/default/nfs-common to statically assign
+   port numbers to the statd daemon:-
+
+        hosts:
+          nfs_client:
+            variables:
+              statd_opts:
+                port: <integer>
+                outgoing_port: <integer>
+
+3. Per-host kernel options to statically assign TCP and UDP ports to the lockd
+   daemon:-
+
+        hosts:
+          nfs_client:
+            variables:
+              lockd_opts:
+                port: <integer>
