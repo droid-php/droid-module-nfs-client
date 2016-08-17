@@ -46,21 +46,20 @@ tasks:
           src: "!{{ mod_path }}/assets/etc/default/nfs-common.template"
           dest: "/etc/default/nfs-common"
     -
-      name: "Restart NFS Common Service"
-      command: "service:restart"
-      arguments:
-          name: "nfs-common"
-    -
       name: "Make NFS share moint point"
       command: "fs:mkdir"
       arguments:
           directory: "{{{ module_nfs_client.mount.path }}}"
           mode: "{{{ module_nfs_client.mount.mode }}}"
     -
-      name: "Mount NFS share"
+      name: "Configure the mounting of an NFS share"
       command: "fs:mount"
       arguments:
           filesystem: "{{{ module_nfs_client.share.host }}}:{{{ module_nfs_client.share.path }}}"
           mount-point: "{{{ module_nfs_client.mount.path }}}"
           type: "nfs"
           options: "{{{ module_nfs_client.mount.opts }}}"
+          skip-mount: ~
+    -
+      name: "Reboot to apply kernel options"
+      command: "os:reboot"
