@@ -31,6 +31,7 @@ tasks:
       arguments:
           src: "!{{ mod_path }}/assets/etc/modprobe.d/lockd.conf.template"
           dest: "/etc/modprobe.d/lockd.conf"
+      trigger: "Reboot"
     -
       name: "Update packages"
       command: "apt-get:update"
@@ -46,7 +47,7 @@ tasks:
           src: "!{{ mod_path }}/assets/etc/default/nfs-common.template"
           dest: "/etc/default/nfs-common"
     -
-      name: "Make NFS share moint point"
+      name: "Make NFS share mount point"
       command: "fs:mkdir"
       arguments:
           directory: "{{{ module_nfs_client.mount.path }}}"
@@ -60,6 +61,7 @@ tasks:
           type: "nfs"
           options: "{{{ module_nfs_client.mount.opts }}}"
           skip-mount: ~
+triggers:
     -
-      name: "Reboot to apply kernel options"
+      name: "Reboot"
       command: "os:reboot"
