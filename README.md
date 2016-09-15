@@ -5,11 +5,10 @@ Droid, please see [droidphp.com](http://droidphp.com).
 
 The steps involved are:-
 
-1. Update platform packages.
-2. Install the nfs-common package.
-3. Create a mount-point for an NFS share.
-4. Restart the NFS Common service.
-5. Mount an NFS share.
+1. Install the nfs-common package.
+2. Create a mount-point for an NFS share.
+3. Restart the NFS Common service.
+4. Mount an NFS share.
 
 
 ## Assumptions
