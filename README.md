@@ -1,4 +1,4 @@
-# Droid Module: droid/nfs-client
+# Droid Module: nfs-client
 
 Install and configure an NFS client and mount a share. For more information on
 Droid, please see [droidphp.com](http://droidphp.com).

@@ -1,6 +1,4 @@
-project:
-    name: "droid/nfs-client"
-    description: "Install and configure an NFS client and mount a share"
+description: "Install and configure an NFS client and mount a share"
 
 variables:
     module_nfs_client:
