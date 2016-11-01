@@ -1,6 +1,7 @@
 description: "Install and configure an NFS client and mount a share"
 
 variables:
+    use_legacy_templating: true
     module_nfs_client:
         share: ~
             # host: nfs.example.com
